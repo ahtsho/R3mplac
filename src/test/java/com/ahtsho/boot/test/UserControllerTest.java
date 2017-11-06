@@ -21,7 +21,6 @@ public class UserControllerTest {
 
 	@Test
 	public void getAllUsers_test() {
-		service.getAllUsers();
-		Assert.assertFalse(true);
+		Assert.assertEquals(1, service.getAllUsers().size());
 	}
 }

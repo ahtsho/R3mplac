@@ -6,8 +6,8 @@ spring.jmx:
    enabled: false
 
 spring.datasource:
-    driver-class-name: ocom.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/remplace;MODE=MySQL
+#    driver-class-name: ocom.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/remplace
     username: remp
     password: remp1qaz_QAZ
 
@@ -46,14 +46,10 @@ spring:
     console:
       enabled: true
 
-spring.jpa:
-    hibernate.ddl-auto: create-drop
-
 hotel.service:
   name: 'test profile:'
   
 logging:
   file: boot_example.log
-  org.hibernate: INFO
 
  
