@@ -2,22 +2,34 @@ package com.ahtsho.boot.dao.jpa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.ahtsho.boot.domain.User;
 
 @Repository
 public class UserRepository{
+	private static final String USERS_TABLE = "remplace.users";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	@Transactional(readOnly=true)
 	public List<User> findAll() {
-		return jdbcTemplate.query("select * from users", new UserRowMapper());
+		return jdbcTemplate.query("select * from "+USERS_TABLE, new UserRowMapper());
+	}
+
+	public void create(User user) {
+		jdbcTemplate.update("INSERT INTO "+USERS_TABLE+" "
+				+ "(username, mister, name, surname, role) "
+				+ "VALUES (?,?,?,?,?)", 
+				new Object[] {user.getUsername(),user.getMister(),user.getName(),user.getSurname(),user.getRole()},
+				new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR});
 	}
 
 /* 
