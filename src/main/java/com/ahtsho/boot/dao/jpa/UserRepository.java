@@ -3,19 +3,19 @@ package com.ahtsho.boot.dao.jpa;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.ahtsho.boot.domain.User;
 
 @Repository
 public class UserRepository{
-	private static final String USERS_TABLE = "remplace.users";
+	private static final String USERS_TABLE = " remplace.users ";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
@@ -30,6 +30,26 @@ public class UserRepository{
 				+ "VALUES (?,?,?,?,?)", 
 				new Object[] {user.getUsername(),user.getMister(),user.getName(),user.getSurname(),user.getRole()},
 				new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR});
+	}
+
+	public List<User> find(User user) {
+		List<User>users = new ArrayList<User>();
+		List<String> conditions = new ArrayList<>();
+		if(user.getName()!=null) {
+			conditions.add(" name like '"+applyMatchAny(user.getName())+"' ");
+		} if(user.getSurname()!=null) {
+			conditions.add(" surname like '"+applyMatchAny(user.getSurname())+"' ");
+		} if(user.getUsername()!=null) {
+			conditions.add(" username like '"+applyMatchAny(user.getUsername())+"' ");
+		}
+		users.addAll(jdbcTemplate.query("select * from "+USERS_TABLE 
+				+ " WHERE "+conditions.stream().collect(Collectors.joining(" and ")), 
+				new UserRowMapper()));
+		return users;
+	}
+
+	private String applyMatchAny(String name) {
+		return "%"+name+"%";
 	}
 
 /* 

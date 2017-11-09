@@ -35,10 +35,17 @@ public class UserController extends AbstractRestHandler {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = { "application/json",
 			"application/xml" }, produces = { "application/json", "application/xml" })
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Create a user resource.", notes = "Returns the URL of the new resource in the Location header.")
 	public void createUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
 		this.userService.create(user);
-		response.setHeader("Location", request.getRequestURL().append("/").append("created").toString());
+	}
+
+	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = { "application/json",
+	"application/xml" }, produces = { "application/json", "application/xml" })
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "Search a user resource.", notes = "Returns the list of users matching the combination of available user fields.")
+	public @ResponseBody List<User> searchUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+		return this.userService.search(user);
 	}
 }

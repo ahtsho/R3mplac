@@ -34,4 +34,8 @@ public class UserService {
 	public void create(User user) {
 		userRepository.create(user);
 	}
+
+	public List<User> search(User user) {
+		return userRepository.find(user);
+	}
 }
