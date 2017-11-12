@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.boot.actuate.metrics.GaugeService;
 import org.springframework.stereotype.Service;
+import com.ahtsho.boot.dao.UserDetailsDAO;
 import com.ahtsho.boot.dao.jpa.UserRepository;
+import com.ahtsho.boot.domain.Contact;
 import com.ahtsho.boot.domain.User;
+import com.ahtsho.boot.domain.UserInfo;
 
 @Service
 public class UserService {
@@ -37,5 +40,20 @@ public class UserService {
 
 	public List<User> search(User user) {
 		return userRepository.find(user);
+	}
+
+	public UserDetailsDAO getUserDetails(int id) {
+		return new UserDetailsDAO(
+				userRepository.findUser(id), 
+				userRepository.findUserInfo(id), 
+				userRepository.findContacts(id));
+	}
+
+	public void createContact(Contact contact) {
+		userRepository.insertContact(contact);
+	}
+
+	public void createUserinfo(UserInfo info) {
+		userRepository.insertUserInfo(info);
 	}
 }
