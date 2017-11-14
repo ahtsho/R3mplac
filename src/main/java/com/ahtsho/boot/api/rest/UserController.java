@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ahtsho.boot.dao.UserDetailsDAO;
 import com.ahtsho.boot.domain.Contact;
-import com.ahtsho.boot.domain.Hotel;
 import com.ahtsho.boot.domain.User;
 import com.ahtsho.boot.domain.UserInfo;
 import com.ahtsho.boot.service.UserService;

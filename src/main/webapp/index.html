@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>R3mplac</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+</head>
+<body>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" href="#">R3mplac</a>
+		</div>
+	</div>
+	<div id="main" class="container">
+		<table class="table table-striped">
+			<tr>
+				<td style="width: 1px;"></td>
+				<td><b>Remplaçnte name</b></td>
+				<td><b>Surname</b></td>
+			</tr>
+			<!-- ko foreach: replac -->
+			<tr>
+				<td><span data-bind="visible: done" class="label label-success">Done</span>
+					<span data-bind="visible: !done()" class="label label-important">In
+						Progress</span></td>
+				<td><p>
+						<b data-bind="text: name"></b>
+					</p>
+					<p data-bind="text: surname"></p></td>
+				<td>
+					<button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
+					<button data-bind="click: $parent.remove" class="btn">Delete</button>
+					<span data-bind="visible: done">
+						<button data-bind="click: $parent.markInProgress" class="btn">Mark
+							In Progress</button>
+				</span> <span data-bind="visible: !done()">
+						<button data-bind="click: $parent.markDone" class="btn">Mark
+							Done</button>
+				</span>
+				</td>
+			</tr>
+			<!-- /ko -->
+		</table>
+		<button data-bind="click: beginAdd" class="btn">Add Remplaçante</button>
+	</div>
+	<div id="add" class="modal hide fade" tabindex="=1" role="dialog"
+		aria-labelledby="addDialogLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">×</button>
+			<h3 id="addDialogLabel">Add Remplaçante</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label" for="inputName">Name</label>
+					<div class="controls">
+						<input data-bind="value: name" type="text" id="inputName"
+							placeholder="Remplaçante name" style="width: 150px;">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputSurname">Surname</label>
+					<div class="controls">
+						<input data-bind="value: surname" type="text"
+							id="inputSurname" placeholder="Remplaçante surname"
+							style="width: 300px;">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button data-bind="click: addRemplac" class="btn btn-primary">Add
+				Remplaçante</button>
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		</div>
+	</div>
+	<div id="edit" class="modal hide fade" tabindex="=1" role="dialog"
+		aria-labelledby="editDialogLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">×</button>
+			<h3 id="editDialogLabel">Edit Remplaçante</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label" for="inputName">Name</label>
+					<div class="controls">
+						<input data-bind="value: name" type="text" id="inputName"
+							placeholder="Name" style="width: 150px;">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputSurname">Surname</label>
+					<div class="controls">
+						<input data-bind="value: surname" type="text"
+							id="inputSurname" placeholder="Surname"
+							style="width: 300px;">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button data-bind="click:editRemplac" class="btn btn-primary">Update
+				Remplac</button>
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		</div>
+	</div>
+	<div id="login" class="modal hide fade" tabindex="=1" role="dialog"
+		aria-labelledby="loginLabel" aria-hidden="true">
+		<div class="modal-header">
+			<h3 id="loginLabel">Sign In</h3>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label" for="inputUsername">Username</label>
+					<div class="controls">
+						<input data-bind="value: username" type="text" id="inputUsername"
+							placeholder="Username">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputPassword">Password</label>
+					<div class="controls">
+						<input data-bind="value: password" type="password"
+							id="inputPassword" placeholder="Password">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button data-bind="click: login" class="btn btn-primary"
+				data-dismiss="modal" aria-hidden="true">Sign In</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function RemplacViewModel() {
+			var self = this;
+			self.remplacURI = 'http://localhost:8090/users/';
+			self.username = "";
+			self.password = "";
+			self.replac = ko.observableArray();
+
+			self.ajax = function(uri, method, data) {
+				var request = {
+					url : uri,
+					type : method,
+					contentType : "application/json",
+					accepts : "application/json",
+					cache : false,
+					dataType : 'json',
+					data : JSON.stringify(data),
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Basic "
+								+ btoa(self.username + ":" + self.password));
+					},
+					error : function(jqXHR) {
+						console.log("ajax error " + jqXHR.status);
+					}
+				};
+				return $.ajax(request);
+			}
+			self.updateRemplac = function(remplac, newRemplac) {
+				var i = self.replac.indexOf(remplac);
+				self.replac()[i].uri(newRemplac.uri);
+				self.replac()[i].name(newRemplac.name);
+				self.replac()[i].surname(newRemplac.surname);
+			}
+
+			self.beginAdd = function() {
+				$('#add').modal('show');
+			}
+			self.add = function(remplac) {
+				self.ajax(self.remplacURI+'add', 'POST', remplac).done(function(data) {
+					self.remplac.push({
+						uri : ko.observable(data.remplac.uri),
+						name : ko.observable(data.remplac.name),
+						surname : ko.observable(data.remplac.surname)
+					});
+				});
+			}
+			self.beginEdit = function(remplac) {
+				editRemplacViewModel.setRemplac(remplac);
+				$('#edit').modal('show');
+			}
+			self.edit = function(remplac, data) {
+				self.ajax(remplac.uri(), 'PUT', data).done(function(res) {
+					self.updateRemplac(remplac, res.remplac);
+				});
+			}
+			self.remove = function(remplac) {
+				self.ajax(remplac.uri(), 'DELETE').done(function() {
+					self.replac.remove(remplac);
+				});
+			}
+			self.markInProgress = function(remplac) {
+				self.ajax(remplac.uri(), 'PUT', {
+					done : false
+				}).done(function(res) {
+					self.updateRemplac(remplac, res.remplac);
+				});
+			}
+			self.beginLogin = function() {
+				$('#login').modal('show');
+			}
+			self.login = function(username, password) {
+				self.username = username;
+				self.password = password;
+				self
+						.ajax(self.remplacURI, 'GET')
+						.done(
+								function(data) {
+									for (var i = 0; i < data.replac.length; i++) {
+										self.replac
+												.push({
+													uri : ko
+															.observable(data.replac[i].uri),
+													name : ko
+															.observable(data.replac[i].name),
+													surname : ko
+															.observable(data.replac[i].surname)
+												});
+									}
+								}).fail(function(jqXHR) {
+							if (jqXHR.status == 403)
+								setTimeout(self.beginLogin, 500);
+						});
+			}
+
+			self.beginLogin();
+		}
+		function AddRemplacViewModel() {
+			var self = this;
+			self.name = ko.observable();
+			self.surname = ko.observable();
+
+			self.addRemplac = function() {
+				$('#add').modal('hide');
+				RemplacViewModel.add({
+					name : self.name(),
+					surname : self.surname()
+				});
+				self.name("");
+				self.surname("");
+			}
+		}
+		function EditRemplacViewModel() {
+			var self = this;
+			self.name = ko.observable();
+			self.surname = ko.observable();
+
+			self.setRemplac = function(remplac) {
+				self.remplac = remplac;
+				self.name(remplac.name());
+				self.surname(remplac.surname());
+				$('edit').modal('show');
+			}
+
+			self.editRemplac = function() {
+				$('#edit').modal('hide');
+				RemplacViewModel.edit(self.remplac, {
+					name : self.name(),
+					surname : self.surname()
+				});
+			}
+		}
+		function LoginViewModel() {
+			var self = this;
+			self.username = ko.observable();
+			self.password = ko.observable();
+
+			self.login = function() {
+				$('#login').modal('hide');
+				RemplacViewModel.login(self.username(), self.password());
+			}
+		}
+
+		var RemplacViewModel = new RemplacViewModel();
+		var addRemplacViewModel = new AddRemplacViewModel();
+		var editRemplacViewModel = new EditRemplacViewModel();
+		var loginViewModel = new LoginViewModel();
+		ko.applyBindings(RemplacViewModel, $('#main')[0]);
+		ko.applyBindings(addRemplacViewModel, $('#add')[0]);
+		ko.applyBindings(editRemplacViewModel, $('#edit')[0]);
+		ko.applyBindings(loginViewModel, $('#login')[0]);
+	</script>
+</body>
+</html>
