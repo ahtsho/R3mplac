@@ -23,8 +23,8 @@
 			</tr>
 			<!-- ko foreach: replac -->
 			<tr>
-				<td><span data-bind="visible: done" class="label label-success">Done</span>
-					<span data-bind="visible: !done()" class="label label-important">In
+				<td><span class="label label-success">Done</span>
+					<span class="label label-important">In
 						Progress</span></td>
 				<td><p>
 						<b data-bind="text: name"></b>
@@ -33,11 +33,11 @@
 				<td>
 					<button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
 					<button data-bind="click: $parent.remove" class="btn">Delete</button>
-					<span data-bind="visible: done">
+					<span >
 						<button data-bind="click: $parent.markInProgress" class="btn">Mark
 							In Progress</button>
-				</span> <span data-bind="visible: !done()">
-						<button data-bind="click: $parent.markDone" class="btn">Mark
+				</span> <span >
+						<button class="btn">Mark
 							Done</button>
 				</span>
 				</td>
