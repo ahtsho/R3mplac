@@ -21,19 +21,31 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
 @RestController
 @RequestMapping(value = "/users")
 @Api(tags = { "users" })
-public class UserController extends AbstractRestHandler {
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class UserController  {
 
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = { "application/json", "application/xml" })
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Get a list of all users.", notes = "None")
-	public @ResponseBody List<User> getAllUsers(HttpServletRequest request, HttpServletResponse response) {
-		return this.userService.getAll();
+	@GET
+	@RequestMapping(value = "/list")
+	public Response getAllUsers() {
+//		ResponseBuilder builder = Response.status(Response.Status.OK);
+//		builder.type(MediaType.APPLICATION_JSON);
+//		builder.entity(this.userService.getAll());
+//		return builder.build();
+		return Response.ok(this.userService.getAll(), MediaType.APPLICATION_JSON).build();
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = { "application/json",

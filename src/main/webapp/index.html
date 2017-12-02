@@ -141,7 +141,7 @@
 	<script type="text/javascript">
 		function RemplacViewModel() {
 			var self = this;
-			self.remplacURI = 'http://localhost:8090/users/';
+			self.remplacURI = 'http://localhost:8090/users/list';
 			self.username = "";
 			self.password = "";
 			self.replac = ko.observableArray();
@@ -155,9 +155,12 @@
 					cache : false,
 					dataType : 'json',
 					data : JSON.stringify(data),
+					headers: {          
+						Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+					},
 					beforeSend : function(xhr) {
-						xhr.setRequestHeader("Authorization", "Basic "
-								+ btoa(self.username + ":" + self.password));
+// 						xhr.setRequestHeader("Authorization", "Basic "
+// 								+ btoa(self.username + ":" + self.password));
 					},
 					error : function(jqXHR) {
 						console.log("ajax error " + jqXHR.status);
@@ -215,15 +218,10 @@
 						.ajax(self.remplacURI, 'GET')
 						.done(
 								function(data) {
-									for (var i = 0; i < data.replac.length; i++) {
-										self.replac
-												.push({
-													uri : ko
-															.observable(data.replac[i].uri),
-													name : ko
-															.observable(data.replac[i].name),
-													surname : ko
-															.observable(data.replac[i].surname)
+									for (var i = 0; i < data.entity.length; i++) {
+										self.replac.push({
+													name : ko.observable(data.entity[i].name),
+													surname : ko.observable(data.entity[i].surname)
 												});
 									}
 								}).fail(function(jqXHR) {
