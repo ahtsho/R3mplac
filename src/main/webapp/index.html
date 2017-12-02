@@ -18,28 +18,19 @@
 		<table class="table table-striped">
 			<tr>
 				<td style="width: 1px;"></td>
-				<td><b>Remplaçnte name</b></td>
+				<td><b>Name</b></td>
 				<td><b>Surname</b></td>
+				<td></td>
 			</tr>
 			<!-- ko foreach: replac -->
 			<tr>
-				<td><span class="label label-success">Done</span>
-					<span class="label label-important">In
-						Progress</span></td>
-				<td><p>
-						<b data-bind="text: name"></b>
-					</p>
-					<p data-bind="text: surname"></p></td>
+				<td><span class="label label-success">Available</span>
+					<span class="label label-important">Busy</span></td>
+				<td><p><b data-bind="text: name"></b></p></td>
+				<td>	<p data-bind="text: surname"></p></td>
 				<td>
 					<button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
 					<button data-bind="click: $parent.remove" class="btn">Delete</button>
-					<span >
-						<button data-bind="click: $parent.markInProgress" class="btn">Mark
-							In Progress</button>
-				</span> <span >
-						<button class="btn">Mark
-							Done</button>
-				</span>
 				</td>
 			</tr>
 			<!-- /ko -->
