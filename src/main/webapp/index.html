@@ -40,8 +40,7 @@
 	<div id="add" class="modal hide fade" tabindex="=1" role="dialog"
 		aria-labelledby="addDialogLabel" aria-hidden="true">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true">×</button>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			<h3 id="addDialogLabel">Add Remplaçante</h3>
 		</div>
 		<div class="modal-body">
@@ -50,14 +49,30 @@
 					<label class="control-label" for="inputName">Name</label>
 					<div class="controls">
 						<input data-bind="value: name" type="text" id="inputName"
-							placeholder="Remplaçante name" style="width: 150px;">
+							placeholder="Mary" style="width: 300px;">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="inputSurname">Surname</label>
 					<div class="controls">
 						<input data-bind="value: surname" type="text"
-							id="inputSurname" placeholder="Remplaçante surname"
+							id="inputSurname" placeholder="Poppins"
+							style="width: 300px;">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputUsername">Username</label>
+					<div class="controls">
+						<input data-bind="value: username" type="text"
+							id="inputUsername" placeholder="mary.poppins@mail.com"
+							style="width: 300px;">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputPassword">Username</label>
+					<div class="controls">
+						<input data-bind="value: mister" type="password"
+							id="inputPassword" placeholder="password"
 							style="width: 300px;">
 					</div>
 				</div>
@@ -132,7 +147,7 @@
 	<script type="text/javascript">
 		function RemplacViewModel() {
 			var self = this;
-			self.remplacURI = 'http://localhost:8090/users/list';
+			self.remplacURI = 'http://localhost:8090/users/';
 			self.username = "";
 			self.password = "";
 			self.replac = ko.observableArray();
@@ -161,7 +176,6 @@
 			}
 			self.updateRemplac = function(remplac, newRemplac) {
 				var i = self.replac.indexOf(remplac);
-				self.replac()[i].uri(newRemplac.uri);
 				self.replac()[i].name(newRemplac.name);
 				self.replac()[i].surname(newRemplac.surname);
 			}
@@ -172,7 +186,6 @@
 			self.add = function(remplac) {
 				self.ajax(self.remplacURI+'add', 'POST', remplac).done(function(data) {
 					self.remplac.push({
-						uri : ko.observable(data.remplac.uri),
 						name : ko.observable(data.remplac.name),
 						surname : ko.observable(data.remplac.surname)
 					});
@@ -183,7 +196,7 @@
 				$('#edit').modal('show');
 			}
 			self.edit = function(remplac, data) {
-				self.ajax(remplac.uri(), 'PUT', data).done(function(res) {
+				self.ajax(self.remplacURI+'edit', 'PUT', data).done(function(res) {
 					self.updateRemplac(remplac, res.remplac);
 				});
 			}
@@ -206,7 +219,7 @@
 				self.username = username;
 				self.password = password;
 				self
-						.ajax(self.remplacURI, 'GET')
+						.ajax(self.remplacURI+"list", 'GET')
 						.done(
 								function(data) {
 									for (var i = 0; i < data.entity.length; i++) {
@@ -227,15 +240,21 @@
 			var self = this;
 			self.name = ko.observable();
 			self.surname = ko.observable();
+			self.username = ko.observable();
+			self.mister = ko.observable();
 
 			self.addRemplac = function() {
 				$('#add').modal('hide');
 				RemplacViewModel.add({
 					name : self.name(),
-					surname : self.surname()
+					surname : self.surname(),
+					username : self.username(),
+					mister : self.mister()
 				});
 				self.name("");
 				self.surname("");
+				self.username("");
+				self.mister("");
 			}
 		}
 		function EditRemplacViewModel() {

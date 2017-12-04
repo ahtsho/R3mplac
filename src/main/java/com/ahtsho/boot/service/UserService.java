@@ -56,4 +56,8 @@ public class UserService {
 	public void createUserinfo(UserInfo info) {
 		userRepository.insertUserInfo(info);
 	}
+
+	public void update(User user) {
+		userRepository.update(user);
+	}
 }

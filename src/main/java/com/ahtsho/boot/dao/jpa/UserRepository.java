@@ -120,6 +120,11 @@ public class UserRepository{
         user.setId(newUserId);
         return user;
     }*/
+
+	public void update(User user) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 class UserRowMapper implements RowMapper<User>{

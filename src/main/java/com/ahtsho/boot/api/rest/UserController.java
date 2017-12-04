@@ -56,6 +56,14 @@ public class UserController  {
 		this.userService.create(user);
 	}
 
+	@RequestMapping(value = "/edit", method = RequestMethod.PUT, consumes = { "application/json",
+	"application/xml" }, produces = { "application/json", "application/xml" })
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "Create a user resource.", notes = "Returns the URL of the new resource in the Location header.")
+	public void editUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+		this.userService.update(user);
+	}
+
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = { "application/json",
 			"application/xml" }, produces = { "application/json", "application/xml" })
 	@ResponseStatus(HttpStatus.OK)
