@@ -17,6 +17,8 @@ import com.ahtsho.boot.domain.Contact;
 import com.ahtsho.boot.domain.User;
 import com.ahtsho.boot.domain.UserInfo;
 
+import javassist.bytecode.analysis.Type;
+
 @Repository
 public class UserRepository{
 	private static final String USERS_TABLE = " remplace.users ";
@@ -122,8 +124,15 @@ public class UserRepository{
     }*/
 
 	public void update(User user) {
-		// TODO Auto-generated method stub
-		
+		jdbcTemplate.update("UPDATE "+USER_INFO_TABLE+" SET" + 
+				"name = ?" +
+				"surname = ?" +
+				"WHERE id=?",new Object[] {
+						user.getName(),
+						user.getSurname(),
+						user.getId()
+				},
+				new int[] {Types.VARCHAR, Types.VARCHAR,Types.INTEGER});
 	}
 }
 
