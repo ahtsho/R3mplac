@@ -1,8 +1,14 @@
 package com.ahtsho.boot.api.rest;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,21 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ahtsho.boot.dao.UserDetailsDAO;
 import com.ahtsho.boot.domain.Contact;
 import com.ahtsho.boot.domain.User;
 import com.ahtsho.boot.domain.UserInfo;
 import com.ahtsho.boot.service.UserService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -40,12 +41,8 @@ public class UserController  {
 
 	@GET
 	@RequestMapping(value = "/list")
-	public Response getAllUsers() {
-//		ResponseBuilder builder = Response.status(Response.Status.OK);
-//		builder.type(MediaType.APPLICATION_JSON);
-//		builder.entity(this.userService.getAll());
-//		return builder.build();
-		return Response.ok(this.userService.getAll(), MediaType.APPLICATION_JSON).build();
+	public List<User> getAllUsers() {
+		return this.userService.getAll();
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = { "application/json",
