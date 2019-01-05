@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ahtsho.boot.dao.UserDetailsDAO;
 import com.ahtsho.boot.domain.Contact;
+import com.ahtsho.boot.domain.Role;
 import com.ahtsho.boot.domain.User;
 import com.ahtsho.boot.domain.UserInfo;
 import com.ahtsho.boot.service.UserService;
@@ -28,7 +30,7 @@ import com.ahtsho.boot.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/users")
 @Api(tags = { "users" })
@@ -38,6 +40,12 @@ public class UserController  {
 
 	@Autowired
 	private UserService userService;
+
+	@GET
+	@RequestMapping(value = "/roles/list")
+	public List<Role> getAllRoles() {
+		return this.userService.getAllRoles();
+	}
 
 	@GET
 	@RequestMapping(value = "/list")
@@ -69,16 +77,18 @@ public class UserController  {
 			HttpServletResponse response) {
 		return this.userService.search(user);
 	}
-/*
-	@RequestMapping(value = "/detail", method = RequestMethod.POST, consumes = { "application/json",
-			"application/xml" }, produces = { "application/json", "application/xml" })
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = { "application/json",
+	"application/xml" }, produces = { "application/json", "application/xml" })
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Get user details.")
-	public @ResponseBody UserDetailsDAO getUserDetails(@RequestBody User user, HttpServletRequest request,
-			HttpServletResponse response) {
-		return this.userService.getUserDetails(user);
+	@ApiOperation(value = "Login", notes = "Returns true if user can login.")
+	public boolean login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+		if(user.getUsername().equals("ahadu") && user.getMister().contains("supercali")) {
+			return true;
+		}
+		return false;
 	}
-*/
+
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET, produces = { "application/json", "application/xml" })
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get a single hotel.", notes = "You have to provide a valid User ID.")

@@ -124,15 +124,17 @@ public class UserRepository{
     }*/
 
 	public void update(User user) {
-		jdbcTemplate.update("UPDATE "+USER_INFO_TABLE+" SET" + 
-				"name = ?" +
-				"surname = ?" +
-				"WHERE id=?",new Object[] {
+		jdbcTemplate.update("UPDATE "+USERS_TABLE+" SET" + 
+				" name = ?, " +
+				" surname = ?, " +
+				" role = ?" +
+				" WHERE id=?",new Object[] {
 						user.getName(),
 						user.getSurname(),
+						user.getRole(),
 						user.getId()
 				},
-				new int[] {Types.VARCHAR, Types.VARCHAR,Types.INTEGER});
+				new int[] {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER});
 	}
 }
 
