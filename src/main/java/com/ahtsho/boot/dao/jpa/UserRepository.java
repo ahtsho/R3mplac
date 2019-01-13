@@ -17,8 +17,6 @@ import com.ahtsho.boot.domain.Contact;
 import com.ahtsho.boot.domain.User;
 import com.ahtsho.boot.domain.UserInfo;
 
-import javassist.bytecode.analysis.Type;
-
 @Repository
 public class UserRepository{
 	private static final String USERS_TABLE = " remplace.users ";
