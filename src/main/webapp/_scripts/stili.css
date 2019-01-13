@@ -1,0 +1,145 @@
+body{
+	margin:0;
+	padding:0;
+}
+
+
+/* GENERICHE */
+*{
+	-webkit-text-size-adjust:none;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box; 
+}
+div{
+	-webkit-text-size-adjust:none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	/*border:1px solid #F00; /* */
+}
+form{
+	margin:0;
+	padding:0;
+}
+input{
+	width:230px;
+	border:none;
+	border-radius:3px;
+	padding:7px;
+	background-color:rgba(0,0,0,0.1);
+	height:40px;
+	line-height:40px;
+	margin-bottom:20px;
+	text-align:center;
+}
+button{
+	border:none;
+	border-radius:20px;
+	padding-left:20px;
+	padding-right:20px;
+	height:40px;
+	line-height:40px;
+	background-color:#FC0;
+	cursor:pointer;
+}
+::-webkit-input-placeholder{
+	opacity:0.5 !important;
+	font-weight:normal !important;
+	font-style:italic;
+}
+::-moz-placeholder{
+	opacity:0.5 !important;
+	font-weight:normal !important;
+	font-style:italic;
+}
+.campoInvalidato {
+	border:#F90 solid 2px !important;
+}
+.msgErrCampi{
+	color:#F90;
+	font-size:11px;
+	text-align:center;
+}
+
+/* COMUNI */
+#titolo{
+	position:fixed;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:50px;
+	line-height:50px;
+	text-align:center;
+	font-weight:bold;
+	font-size:25px;
+	border-bottom:1px solid #CCC;
+	background-color:#EEE;
+	font-family:"Ostrich Sans", sans-serif;
+	letter-spacing:2px;	
+}
+
+#nav{
+	position:fixed;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	height:40px;
+	border-top:1px solid #CCC;
+}
+#frSx, #frDx{
+	width:50%;
+	height:40px;
+	cursor:pointer;
+}
+#frSx span, #frDx span{
+	height:40px;
+	line-height:40px;
+}
+#frSx{
+	text-align:left;
+	float:left;
+}
+#frDx{
+	text-align:right;
+	float:right;
+}
+#frSx svg{
+	float:left;
+}
+#frDx svg{
+	float:right;
+}
+#nav svg{
+	width:40px;
+}
+#nav svg polyline{
+	stroke:#000;
+	stroke-width:3;
+	stroke-linecap:round;
+	stroke-linejoin:round;
+	stroke-miterlimit:10;
+	fill:transparent;
+}
+
+
+
+
+/* SPECIFICHE */
+#campiLogin{
+	position:fixed;
+	top:50%;
+	left:0px;
+	width:100%;
+	height:100px;
+	margin-top:-50px;
+}
+#campiLogin p{
+	text-align:center;
+	margin:0px;
+}
