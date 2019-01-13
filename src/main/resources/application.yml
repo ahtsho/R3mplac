@@ -37,19 +37,4 @@ info:
     description: ${project.description}
     version: ${project.version}
 
-hotel.service:
-  name: 'default profile:'
----
-spring:
-  profiles: test
-  h2:
-    console:
-      enabled: true
-
-hotel.service:
-  name: 'test profile:'
-  
-logging:
-  file: boot_example.log
-
  

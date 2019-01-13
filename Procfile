@@ -1,0 +1,1 @@
+web: java -jar $JAVA_OPTS -Dserver.port=$PORT target/R3mplac-0.4.0.war
