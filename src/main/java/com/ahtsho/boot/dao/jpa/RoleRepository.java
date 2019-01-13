@@ -14,7 +14,7 @@ import com.ahtsho.boot.domain.Role;
 
 @Repository
 public class RoleRepository{
-	private static final String ROLES_TABLE = " remplace.roles ";
+	private static final String ROLES_TABLE = "roles";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

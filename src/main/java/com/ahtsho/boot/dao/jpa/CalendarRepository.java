@@ -15,7 +15,7 @@ import com.ahtsho.boot.domain.Activity;
 
 @Repository
 public class CalendarRepository{
-	private static final String CALENDAR_TABLE = " remplace.calendar ";
+	private static final String CALENDAR_TABLE = "calendar ";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

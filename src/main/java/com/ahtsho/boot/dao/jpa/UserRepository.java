@@ -19,9 +19,9 @@ import com.ahtsho.boot.domain.UserInfo;
 
 @Repository
 public class UserRepository{
-	private static final String USERS_TABLE = " remplace.users ";
-	private static final String CONTACTS_TABLE = " remplace.contacts ";
-	private static final String USER_INFO_TABLE = " remplace.user_info ";
+	private static final String USERS_TABLE = "users ";
+	private static final String CONTACTS_TABLE = "contacts ";
+	private static final String USER_INFO_TABLE = "user_info ";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
